@@ -25,7 +25,7 @@ const BasicForm = () => {
     validationSchema: basicSchema,
     onSubmit,
   });
-
+  console.log(handleSubmit);
   return (
     <form onSubmit={handleSubmit} autoComplete="off">
       <label htmlFor="email">Email</label>

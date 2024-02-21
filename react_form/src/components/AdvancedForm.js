@@ -1,10 +1,22 @@
 import { Form, Formik, Field } from "formik";
 import CustomInput from "./CustomInput";
+import { advancedSchema } from "../schemas";
+import CustomSelect from "./CustomSelect";
+import CustomCheckbox from "./CustomCheckbox";
+
+const onSubmit = async (values, actions) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  actions.resetForm();
+};
 
 const AdvancedForm = () => {
   return (
-    <Formik initialValues={{ username: "jared" }}>
-      {(props) => (
+    <Formik
+      initialValues={{ username: "", jobType: "", acceptedTos: false }}
+      validationSchema={advancedSchema}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting }) => (
         <Form>
           <CustomInput
             label="Username"
@@ -12,15 +24,21 @@ const AdvancedForm = () => {
             type="text"
             placeholder="Enter your username"
           />
-          <Field type="text" name="name" placeholder="Name" />
-          {/* <input
-            type="text"
-            onChange={props.handleChange}
-            onBlur={props.handleBlur}
-            value={props.values.name}
-            name="name"
-          /> */}
-          <button type="submit">Submit</button>
+          <CustomSelect
+            label="Job select"
+            name="jobType"
+            placeholder="Please select a job"
+          >
+            <option value="">Please select a job type</option>
+            <option value="developer">Developer</option>
+            <option value="designer">Designer</option>
+            <option value="manager">Product manager</option>
+            <option value="other">Other</option>
+          </CustomSelect>
+          <CustomCheckbox type="checkbox" name="acceptedTos" />
+          <button disabled={isSubmitting} type="submit">
+            Submit
+          </button>
         </Form>
       )}
     </Formik>
